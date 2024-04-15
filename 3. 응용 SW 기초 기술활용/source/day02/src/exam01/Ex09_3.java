@@ -2,6 +2,7 @@ package exam01;
 
 public class Ex09_3 {
     public static void main(String[] args) {
+
         int floor = 10;
         switch(floor) {
             case 1:
