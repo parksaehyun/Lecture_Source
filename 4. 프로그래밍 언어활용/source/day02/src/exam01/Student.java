@@ -11,6 +11,7 @@ public class Student {
         subject = "자바";
     }
 
+
     public Student(int _id, String _name, String _subject) { // 기본 생성자(Default 생성자)
         id = _id;
         name = _name;

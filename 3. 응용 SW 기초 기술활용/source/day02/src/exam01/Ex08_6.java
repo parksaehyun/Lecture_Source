@@ -1,2 +1,7 @@
-package exam01;public class Ex08_6 {
+package exam01;
+
+import java.util.Arrays;
+
+public class Ex08_6 {
+
 }
