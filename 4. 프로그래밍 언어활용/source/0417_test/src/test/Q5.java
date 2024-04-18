@@ -7,9 +7,11 @@ public class Q5 {
     public static void main(String[] args) {
         int[] nums = { 21, 22, 30, 11, 99, 31 };
 
+        int[] reverse = new int [nums.length]; //선언을 해야 값 대입이 가능하니까 선언한건가?
+
         for( int i=0; i < nums.length; i++) {
-            int [] reverse = {nums[nums.length - i - 1]};
-            System.out.println(Arrays.toString(reverse));
+        reverse[i] = nums[nums.length - i - 1];
         }
+        System.out.println(Arrays.toString(reverse));
     }
 }
