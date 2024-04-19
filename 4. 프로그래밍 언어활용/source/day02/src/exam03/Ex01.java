@@ -8,7 +8,7 @@ public class Ex01 {
         B b = new B();
 
         a.numA = 10;
-
+        //a.
 
     }
 }
