@@ -8,6 +8,8 @@ public class Ex03 {
         Human human2 = new Human();
         human2.move();
 
+        System.out.println(human == human2);
+
         Human human3 = new Human();
         human3.move();
 
