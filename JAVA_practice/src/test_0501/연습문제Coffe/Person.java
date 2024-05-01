@@ -1,4 +1,4 @@
-package 연습문제Coffe;
+package test_0501.연습문제Coffe;
 
 public class Person {
     private String name; // 사람 이름

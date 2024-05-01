@@ -1,4 +1,4 @@
-package 연습문제Coffe;
+package test_0501.연습문제Coffe;
 
 import java.util.HashMap;
 import java.util.Map;
