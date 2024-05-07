@@ -9,7 +9,7 @@ public class A {  //실제클래스명 : exam02.A
     protected int numB;
 
     void printNum(){
-        numAAA = 100;
+        numAAA = 123;
         System.out.println(numAAA);
     }
 }

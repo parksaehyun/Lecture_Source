@@ -5,4 +5,5 @@ public class A {
     int defaultNum;
     private int privateNum;
     protected int protectedNum;
+
 }

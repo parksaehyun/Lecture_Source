@@ -7,4 +7,5 @@ public class B extends A {
         protectedNum = 100;
         System.out.println(protectedNum);
     }
+
 }
