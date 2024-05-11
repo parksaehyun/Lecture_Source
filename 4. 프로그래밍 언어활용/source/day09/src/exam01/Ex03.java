@@ -11,6 +11,7 @@ public class Ex03 {
         int total = 0;
         while (sc.hasNextInt()) {
             int num = sc.nextInt();
+            //System.out.println(num);
             total += num;
         }
         System.out.println(total);
