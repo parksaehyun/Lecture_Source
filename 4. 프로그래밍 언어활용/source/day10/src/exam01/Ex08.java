@@ -7,3 +7,6 @@ public class Ex08 {
         System.out.println(fare);
     }
 }
+
+
+
