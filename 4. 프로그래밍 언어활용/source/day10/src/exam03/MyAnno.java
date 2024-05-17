@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
     @Retention(RetentionPolicy.RUNTIME)
     public @interface MyAnno {
         int min() default 10; // min() 설정 항목, 기본값 10
-        int max() default 100;// max 설정 항목, 기본값 100
+        int max() default 100;// max() 설정 항목, 기본값 100
         String [] names() default {"이름1"};
         String value();
     }
