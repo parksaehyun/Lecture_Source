@@ -8,10 +8,16 @@ import java.time.LocalDateTime;
 //@Getter @Setter @ToString
 @Data
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+//@NoArgsConstructor(access = AccessLevel.PRIVATE) //기본 생성자
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Member {
+    @NonNull
     private String userId;
+    @NonNull
     private String userNm;
     private String email;
+
+    @ToString.Exclude
     private LocalDateTime regDt;
 }
