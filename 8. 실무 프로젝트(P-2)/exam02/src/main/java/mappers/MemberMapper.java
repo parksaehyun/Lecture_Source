@@ -16,6 +16,8 @@ public interface MemberMapper {
 
     List<Member> getList4(List<String> userIds);
 
+    List<Member> getList5(long userNo);
+
     int register(Member member);
     int register2(Member member);
 

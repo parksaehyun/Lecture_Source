@@ -1,4 +1,4 @@
-package member;
+package board;
 
 import lombok.Builder;
 import lombok.Data;

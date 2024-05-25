@@ -15,9 +15,8 @@ public class Ex03 {
 
     @Test
     void test1() {
-
         Member member = Member.builder()
-                .userId("USER1716528329706")
+                .userId("USER1716554165450")
                 .userNm("(수정)사용자04")
                 .build();
 
@@ -30,12 +29,12 @@ public class Ex03 {
     void test2() {
         MemberMapper mapper = session.getMapper(MemberMapper.class);
         Member member = Member.builder()
-                .userId("USER99")
+                //.userId("USER99")
                 .userNm("사용")
-                .mobile("%010%")
+                .mobile("010")
                 .build();
         List<Member> members = mapper.getList3(member);
-        System.out.println(members);
+        members.forEach(System.out::println);
     }
 
     @Test
@@ -43,6 +42,13 @@ public class Ex03 {
         MemberMapper mapper = session.getMapper(MemberMapper.class);
         List<String> userIds = Arrays.asList("USER04", "USER05", "USER06");
         List<Member> members = mapper.getList4(userIds);
+        members.forEach(System.out::println);
+    }
+
+    @Test
+    void test4() {
+        MemberMapper mapper = session.getMapper(MemberMapper.class);
+        List<Member> members = mapper.getList5(10);
         members.forEach(System.out::println);
     }
 }

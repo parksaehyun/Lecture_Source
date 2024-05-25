@@ -48,7 +48,7 @@ public class Ex02 {
     @Test
     void test3() {
         Member member = Member.builder()
-                .userId("USER01")
+                .userId("USER1716553246757")
                 .build();
 
         int cnt = session.delete("mappers.MemberMapper.delete", member);
@@ -58,8 +58,8 @@ public class Ex02 {
     @Test
     void test4() {
         MemberMapper mapper = session.getMapper(MemberMapper.class);
-        int cnt = mapper.delete("USER02");
-        int cnt2 = mapper.delete2("USER03");
+        int cnt = mapper.delete("USER1716531612171");
+        int cnt2 = mapper.delete2("USER1716554051682");
 
         System.out.println(cnt);
         System.out.println(cnt2);
