@@ -2,8 +2,11 @@ package extends_study;
 
 public class Child extends Parents {
 
-    public Child(int id, String name){
-        super(id, name);
-    }
+public void pp() {
+    System.out.println("자식이 재정의");
+}
 
+public void cc() {
+    System.out.println("자식메서만 정의");
+}
 }
