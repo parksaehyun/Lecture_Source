@@ -15,7 +15,7 @@ public class Instert {
                 .SUBJECT("ENGLISH")
                 .CONTENT("SPEAKING")
                 .build();
-        int plus1 = session.selectOne("mappers.BoardMapper.plusBoard");
+        int plus1 = session.insert("mappers.BoardMapper.plusBoard", board);
         System.out.println(plus1);
     }
 

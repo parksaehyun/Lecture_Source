@@ -9,6 +9,6 @@
     </select>
     <insert id="plusBoard" >
         INSERT INTO BOARD (SEQ, POSTER, SUBJECT, CONTENT)
-        VALUES (SEQ_BOARD.NEXTVAL, #{POSTER}, #{SUBJECT}, #{CONTENT})
+        VALUES (SEQ_BOARD.NEXTVAL, #{poster}, #{SUBJECT}, #{CONTENT})
     </insert>
 </mapper>
