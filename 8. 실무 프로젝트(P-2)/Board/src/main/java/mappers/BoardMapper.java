@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface BoardMapper {
     int plusBoard(Board board);
-    List<Board> getBoard();;
+    List<Board> getBoard();
 }
