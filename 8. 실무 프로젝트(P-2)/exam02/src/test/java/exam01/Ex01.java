@@ -13,7 +13,7 @@ public class Ex01 {
     void test1() {
         SqlSession session = DBConn.getSession();
         List<Member> members = session.selectList("");
-        members.forEach(System.out::println);mappers.MemberMapper.getList
+        //members.forEach(System.out::println);mappers.MemberMapper.getList
     }
 
     @Test
