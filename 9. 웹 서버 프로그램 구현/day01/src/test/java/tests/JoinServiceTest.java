@@ -39,37 +39,62 @@ public class JoinServiceTest {
     }
 
     @Test
-    @DisplayName("필수항목(이메일, 비밀번호, 비밀번호 확인, 회원명) 검증, 검증 실패 시 ValidationException 발생")
+    @DisplayName("필수항목(이메일, 비밀번호, 비밀번호 확인, 회원명, 약관동의) 검증, 검증 실패 시 ValidationException 발생")
     void requiredFieldTest() {
-        // 이메일 필수 검증 S
+        assertAll(
+                // 이메일 검증
+                () -> {
+                    RequestJoin form = getData();
+                    form.setEmail(null);
+                    requiredFieldEackTest(form, "이메일");
+
+                    form.setEmail("   ");
+                    requiredFieldEackTest(form, "이메일");
+                    },
+
+                // 비밀번호 검증
+                    () -> {
+                        RequestJoin form = getData();
+                        form. setPassword(null);
+                        requiredFieldEackTest(form, "비밀번호");
+
+                        form. setPassword("    ");
+                        requiredFieldEackTest(form, "비밀번호");
+                    },
+                // 비밀번호 확인 검증
+                    () -> {
+                        RequestJoin form = getData();
+                        form.setConfirmPassword(null);
+                        requiredFieldEackTest(form, "비밀번호를 확인");
+
+                        form.setConfirmPassword("    ");
+                        requiredFieldEackTest(form, "비밀번호를 확인");
+                    },
+                // 회원명 검증
+                    () -> {
+                        RequestJoin form = getData();
+                        form.setUserName(null);
+                        requiredFieldEackTest(form, "회원명");
+
+                        form.setUserName("   ");
+                        requiredFieldEackTest(form, "회원명");
+                    },
+                // 약관동의
+                    () -> {
+                        RequestJoin form = getData();
+                        form.setTermsAgree(false);
+                        requiredFieldEackTest(form, "약관에 동의");
+                    }
+        );
+    }
+
+    void requiredFieldEackTest(RequestJoin form, String keyword) {
         ValidationException thrown = assertThrows(ValidationException.class, () -> {
-           RequestJoin form = getData();
-           //null 체크
-           form.setEmail(null);
-            joinService.process(form);
-
-            // 빈 문자
-            form.setEmail("    ");
             joinService.process(form);
         });
 
-        String message = thrown.getMessage(); // 발생한 예외 메세지
-        assertTrue(message.contains("이메일"));
-        // 이메일 필수 검증 E
-
-        // 비밀번호 필수 검증 S
-        thrown =assertThrows(ValidationException.class, () -> {
-            RequestJoin form = getData();
-           form.setPassword(null);
-           joinService.process(form);
-
-           form.setPassword("    ");
-            joinService.process(form);
-        });
-
-        message = thrown.getMessage();
-        assertTrue(message.contains("비밀번호"));
-        // 비밀번호 필수 검증 E
+        String message = thrown.getMessage();
+        assertTrue(message.contains(keyword));
     }
 }
 
