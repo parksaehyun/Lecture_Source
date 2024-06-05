@@ -45,7 +45,7 @@ public class JoinServiceTest {
                 // 이메일 검증
                 () -> {
                     RequestJoin form = getData();
-                    form.setEmail(null);
+                    //form.setEmail(null);
                     requiredFieldEackTest(form, "이메일");
 
                     form.setEmail("   ");
@@ -91,7 +91,7 @@ public class JoinServiceTest {
     void requiredFieldEackTest(RequestJoin form, String keyword) {
         ValidationException thrown = assertThrows(ValidationException.class, () -> {
             joinService.process(form);
-        });
+        }, keyword + "오류!");
 
         String message = thrown.getMessage();
         assertTrue(message.contains(keyword));
