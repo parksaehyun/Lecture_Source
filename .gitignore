@@ -2,5 +2,6 @@
 .idea/
 *.iml
 /dbeaver-*
+*dbeaver
 /apache-maven-*
 /gradle-*
