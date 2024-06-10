@@ -26,7 +26,7 @@ public class LoginService {
         if(mailer != null) {
             String email = request.getParameter("email");
             mailer.send(email);
-            mailer.send(email);
+            //mailer.send(email);
         }
 
     }
