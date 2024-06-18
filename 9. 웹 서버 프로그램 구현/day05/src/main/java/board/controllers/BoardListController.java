@@ -20,6 +20,9 @@ public class BoardListController extends HttpServlet {
 
         req.setAttribute("items", items);
 
+        req.setAttribute("addCss", new String[] {"board/style", "board/list"});
+        req.setAttribute("addScript", List.of("board/common","board/list"));
+
         RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/templates/board/list.jsp");
         rd.forward(req, resp);
     }

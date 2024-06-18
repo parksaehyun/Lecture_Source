@@ -5,5 +5,5 @@
 %>
 
 <div>
-ex02-key1: <%=key1%>
+    ex02-key1: <%=key1%>
 </div>
