@@ -20,7 +20,7 @@ public class LoginService {
         // 로그인 유효성 검사
         validator.check(request);
 
-        // 로그인 처리 - 회원 정보 조회, 세션에 유지
+        // 로그인 처리  - 회원 정보 조회, 세션에 유지
         String email = request.getParameter("email");
         Member member = mapper.get(email);
 
