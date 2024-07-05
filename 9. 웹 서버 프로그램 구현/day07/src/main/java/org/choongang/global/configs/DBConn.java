@@ -26,7 +26,7 @@ public class DBConn {
         String mode = System.getenv("mode");
         if (mode != null && mode.equals("test")) autoCommit = false;
 
-        return factory.openSession(autoCommit);
+        return factory.openSession(autoCommit); //autoCommit 설정에 따라 SqlSession 객체를 반환
     }
 
     public static SqlSession getSession() {

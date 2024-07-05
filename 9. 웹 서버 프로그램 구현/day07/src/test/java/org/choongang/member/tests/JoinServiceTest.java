@@ -76,9 +76,9 @@ public class JoinServiceTest {
     }
 
     void requiredEachFieldTest(String field, boolean isNull, String keyword) {
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
+        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {// BadRequestException.class라는 예외가 예상됨
             RequestJoin form = getData();
-            if (field.equals("email")) {
+            if (field.equals("email")) { //
                 form.setEmail(isNull?null:"    ");
             } else if (field.equals("password")) {
                 form.setPassword(isNull?null:"    ");
@@ -90,9 +90,9 @@ public class JoinServiceTest {
                 form.setTermsAgree(false);
             }
 
-            service.process(form);
+            service.process(form); // 서비스 실행
 
-        }, field + " 테스트");
+        }, field + " 테스트"); // 반환값 : 발생한 예외객체
 
         String message = thrown.getMessage();
         assertTrue(message.contains(keyword), field + " 키워드 테스트");
