@@ -4,17 +4,29 @@ package org.choongang.member.validators;
 import lombok.RequiredArgsConstructor;
 import org.choongang.global.exceptions.BadRequestException;
 import org.choongang.global.validators.RequiredValidator;
-import org.choongang.global.validators.Validator;
 import org.choongang.member.controllers.RequestJoin;
 import org.choongang.member.mappers.MemberMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 @Component
 @RequiredArgsConstructor
-public class JoinValidator implements Validator<RequestJoin>, RequiredValidator {
+public class JoinValidator implements Validator {
+//public class JoinValidator implements Validator<RequestJoin>, RequiredValidator {
 
     private final MemberMapper mapper;
 
+    @Override
+    public boolean supports(Class<?> clazz) { // 리퀘스트 조인 커맨드 객체만 검증하도록 제한
+        return false;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) { // Object target : 커맨드 객체
+
+    }
+/*
     @Override
     public void check(RequestJoin form) {
         /**
@@ -22,7 +34,7 @@ public class JoinValidator implements Validator<RequestJoin>, RequiredValidator 
          * 2. 이메일 중복 여부(회원이 가입되어 있는지 체크)
          * 3. 비밀번호 자리수 체크(8자리)
          * 4. 비밀번호, 비밀번호 확인 일치 여부
-         */
+
 
         // 1. 필수 항목 검증
         String email = form.getEmail();
@@ -30,7 +42,8 @@ public class JoinValidator implements Validator<RequestJoin>, RequiredValidator 
         String confirmPassword = form.getConfirmPassword();
         String userName = form.getUserName();
         boolean result = form.isAgree();
-
+*/
+        /*
         checkRequired(email, new BadRequestException("이메일을 입력하세요."));
         checkRequired(password, new BadRequestException("비밀번호를 입력하세요."));
         checkRequired(confirmPassword, new BadRequestException("비밀번호를 확인하세요."));
@@ -46,5 +59,8 @@ public class JoinValidator implements Validator<RequestJoin>, RequiredValidator 
 
         // 4. 비밀번호, 비밀번호 확인 일치 여부
         checkTrue(password.equals(confirmPassword), new BadRequestException("비밀번호가 일치하지 않습니다."));
+    */
     }
+
+
 }
