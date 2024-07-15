@@ -14,7 +14,7 @@ public class MessageConfig {
     public MessageSource messageSource() {
         // MessageSource : 인터페이스
         ResourceBundleMessageSource ms = new ResourceBundleMessageSource();
-        ms.setBasenames("messages.commons"); // 클래스 패스가 기준
+        ms.setBasenames("messages.commons", "messages.validations", "messages.errors"); // 클래스 패스가 기준
         ms.setDefaultEncoding("UTF-8");
         ms.setUseCodeAsDefaultMessage(true); // 메세지 코드가 없는 경우 코드로 메세지 대체
 

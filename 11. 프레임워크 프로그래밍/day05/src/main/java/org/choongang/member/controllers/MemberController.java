@@ -1,148 +1,117 @@
 package org.choongang.member.controllers;
 
-
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.choongang.config.MessageConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
-import org.springframework.http.MediaType;
+import org.choongang.member.entities.Member;
+import org.choongang.member.services.JoinService;
+import org.choongang.member.services.LoginService;
+import org.choongang.member.validators.JoinValidator;
+import org.choongang.member.validators.LoginValidator;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Locale;
-
-@Slf4j
+@Slf4j // 로거 형태로 출력
 @Controller
-@RequestMapping("/member")
-@RequiredArgsConstructor
+@RequestMapping("/member") // 공통적인 주소설정 할 때 많이 사용
+@RequiredArgsConstructor // 의존성 주입(생성자 매개변수로 생성자 주입 , 이거 안쓰고 오토와이얼드 서도 ㅇㅋㅇㅋ)
 public class MemberController {
 
-    private final MessageSource messageSource;
-    private final HttpServletRequest request; // 브라우저의 언어 정보 가져오기
+    private final JoinValidator joinValidator;
+    private final JoinService joinService;
 
-    @ModelAttribute("commonValue")
-    public String commonValue() {
-        return "공통 속성값..."; // 컨트롤러 내에서 유지되는 공통 데이터
-    }
+    private final LoginValidator loginValidator;
+    private final LoginService loginService;
 
-    @ModelAttribute("hobbies") // form커스텀태그가 체크박스도 지원함
-    public List<String> hobbies() {
-        return List.of("취미1", "취미2", "취미3", "취미4");
-    }
-
-    @ModelAttribute("hobbies2") // form커스텀태그가 체크박스도 지원함
-    public List<CodeValue> hobbies2() {
-        return List.of(
-                new CodeValue("취미1", "hobby1"),
-                new CodeValue("취미2", "hobby2"),
-                new CodeValue("취미3", "hobby3"),
-                new CodeValue("취미4", "hobby4")
-        );
-    }
-
-    @GetMapping("/join")
-    public String join(@ModelAttribute RequestJoin form) {
-
-        Locale locale = request.getLocale(); // 요청 헤더 Accept-Language // 브라우저의 언어설정 // 리퀘스트객체한테서 로케일을 가져올 수 있음
-        String message = messageSource.getMessage("EMAIL", null, locale);
-        System.out.println(message);
-
+    @GetMapping("/join") // @ModelAttribute RequestJoin form : 자료형이 이퀘스트 조인인 속성이 추가된다? 속성명 : requestJoin
+    public String join(@ModelAttribute RequestJoin form){ // 회원가입 양식
         return "member/join";
     }
 
-    @PostMapping("/join")
-    public String joinPs(RequestJoin form) {
-        //RequestJoin form : 커맨드 객체 - 포스트 방식에서만 넘어옴
-        log.info(form.toString());
+    @PostMapping("/join") // (RequestJoin form : 커맨드 객체 = 자동으로 내부적으로 el식 속성으로도 추가해줌, 속성명 : requestJoin
+    public String joinPs(@Valid RequestJoin form, Errors errors){
+        // 회원 가입 데이터 검증
+        joinValidator.validate(form, errors);
 
-        return "member/join";
+        if(errors.hasErrors()){ // reject, rejectValue가 한번이라도 호출이되면(검증 실패) true // 밸리데이터 실패시 양식 여기에 정의하면 됨
+            return "member/join";
+        }
+
+        joinService.process(form); // 회원 가입 처리
+
+        return "redirect:/member/login"; // 스프링은 알아서 리다이렉트쓰면 요청헤더 통해 로케이션 헤더 설정해줌 = 사이트 찐 이동
     }
 
     @GetMapping("/login")
-    public String login(RequestLogin2 form) {
+    public String login(@ModelAttribute RequestLogin form,
+                        @CookieValue(name="savedEmail", required = false) String savedEmail
+                        /*
+                        @SessionAttribute(value = "member", required = false)Member member
+                        */) {
+        // ModelAttribute : get방식 일 때도 커맨드 객체 유지하기 위해서?
+        // ModelAttribute : 세션 쪽에 있는 데이터를 가져와서 공통 데이터 유지?
 
-        if(form != null) {
-            log.info("이메일:{}, 비밀번호: {}", form.email(), form.password());
+        /*
+        if(member != null) {
+            log.info(member.toString()); // 출력 sout이랑 비슷
+        }
+         */
+
+        if (savedEmail != null) {
+            form.setSaveEmail(true);
+            form.setEmail(savedEmail);
         }
 
         return "member/login";
     }
 
-    /*
-    @GetMapping("/join")
-    public String join(Model model) {
-        //속성값을 모델말고 http서블릿리퀘스트로 해도 되지만 뭔가 더 기능이 있어서 모델로...
-        // get방식은 커맨드 객체가 없음
-        // 직접 주소 입력하는것은 포스트가 아닌 겟방식
-        // 값이 없더라도 속성을 설정해줘야 한다 포스트 양식에서의 오류 방지를 위해서
-        // 겟방식은 모델을 통해 속성을 정의
+/* 세션 올드 버전
+    @GetMapping("/login")
+    public String login(@ModelAttribute RequestLogin form, HttpSession session) {
+        // ModelAttribute : get방식 일 때도 커맨드 객체 유지하기 위해서?
+        // ModelAttribute : 세션 쪽에 있는 데이터를 가져와서 공통 데이터 유지?
 
-        RequestJoin form = new RequestJoin();
-        model.addAttribute("requestJoin", form);
-        // 비어있는 커맨드 객체임 값이 없음 = 값이 매핑이 안되어 있음
-        // 근데 왜 함?
-        // 양식에서 오류방지를 위해 비어있는 값임에도 속성설정 해줘야 함
-        // 로그인 시 아이디 비번 입력(겟) -> 로그인 실패(포스트) -> 다시 로그인 화면(겟) - 이때 실패했던 로그인 데이터(아이디) 유지
+        Member member = (Member) session.getAttribute("member");
+        if(member != null) {
+            log.info(member.toString()); // 출력 sout이랑 비슷
+        }
 
-        model.addAttribute("requestJoin", form);
-
-        return "member/join"; // '/' 가 없음 = 상대경로 = 뷰의 경로
-    }
-     */
-
-    /*
-    @PostMapping("/join")
-    public String joinPs(RequestJoin form) {
-
-        //return "redirect:/member/login";
-        // 찐 페이지 이동 '/'가 있으면 절대경로 = url주소(로케이션헤더추가) // Location: /day05/member/login
-        return "forward:/member/login"; // 버퍼 치환(가짜 페이지 이동)
+        return "member/login";
     }
  */
 
+    @PostMapping("/login")
+    public String loginPs(@Valid RequestLogin form, Errors errors){ //@Valid : 이 커맨드 객체가 검증대상이라는 걸 알려줌
+        // 로그인 데이터 검증
+        loginValidator.validate(form, errors);
 
-//    private  final Logger log = LoggerFactory.getLogger(MemberController.class); // 로거 연동 = @slf4j
-/*
-    @GetMapping("/join")
-    public String join1() {
+        if(errors.hasErrors()){ // reject, rejectValue가 한번이라도 호출이되면(검증 실패) true // 밸리데이터 실패시 양식 여기에 정의하면 됨
+            return "member/login";
+        }
 
-        log.info("{}, {} 없음", "mode1", "mode2");
+        // 로그인 처리 - 서비스
+        //String email = form.getEmail();
+        //loginService.process(email);
+        loginService.process(form);
 
-        return "member/join";
+
+        return "redirect:/";
     }
 
-    @GetMapping(path="/join", params={"mode=join"})
-    public String join() {
-
-        log.info("mode=join");
-
-        return "member/join";
-    }
-
-
-
-    @PostMapping(path="/join", headers = "appKey=1234", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE) //  headers = "appKey=1234" : 요청쪽 헤더에 "appKey=1234" 가 있어야 여기로 유입이 될 수 있음
-    public String joinPs(RequestJoin form) {
-
-        log.info("joinPs 실행...");
+    @RequestMapping("/logout") // 겟이든 포스트이든 다 유입될 수 있게함
+    public String logout(HttpSession session) {
+        session.invalidate(); // 세션 비우기
 
         return "redirect:/member/login";
     }
- */
 
     /*
-    @GetMapping("/member/join")
-    public ModelAndView join() {
-
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("message", "안녕하세요.");
-        mv.setViewName("member/join");
-
-        return mv;
-    }*/
+    @InitBinder // 특정 컨트롤러에서 사용할 공통적인 Valdiator
+    public void initBinder(WebDataBinder binder) {
+        binder.setValidator(joinValidator);
+    }
+     */
 }
