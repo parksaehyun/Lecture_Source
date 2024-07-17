@@ -20,6 +20,9 @@ dependencies {
     implementation 'org.mindrot:jbcrypt:0.4'
     implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
     implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2'
+    //implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.2' // xml형식 의존성
 
 
     implementation 'org.apache.tomcat:tomcat-jdbc:10.1.25'

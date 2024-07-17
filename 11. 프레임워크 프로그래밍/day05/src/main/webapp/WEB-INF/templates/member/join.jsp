@@ -14,6 +14,7 @@
         </dt>
         <dd>
             <form:input path="email"/>
+<%--            requestJoin.email get이 호출되기 때문에 겟방식에서는 모델어트리뷰트 사용해야함--%>
             <form:errors path="email" element="div" delimiter="" />
 <%--            div태그 = 블록태그 = 줄개행--%>
         </dd>

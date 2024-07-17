@@ -18,6 +18,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.IntStream;
+
 @Slf4j // 로거 형태로 출력
 @Controller
 @RequestMapping("/member") // 공통적인 주소설정 할 때 많이 사용
@@ -32,7 +36,7 @@ public class MemberController {
 
     @GetMapping("/join") // @ModelAttribute RequestJoin form : 자료형이 리퀘스트 조인인 속성이 추가된다? 속성명 : requestJoin
     public String join(@ModelAttribute RequestJoin form){ // 회원가입 양식
-        return "member/join";
+        return "member/join"; // 포워드(버퍼치환)
     }
 
     @PostMapping("/join") // (RequestJoin form : 커맨드 객체 = 자동으로 내부적으로 el식 속성으로도 추가해줌, 속성명 : requestJoin
@@ -141,6 +145,22 @@ public class MemberController {
 
         log.info("email:{}, email2:{}", email, email2);
 
+    }
+
+    @ResponseBody
+    @GetMapping("/list2")
+    public List<Member> list() {
+        // 10명의 회원추가하고 목록형태로 출력할거임
+        List<Member> members = IntStream.rangeClosed(1, 10)
+                .mapToObj(i -> Member.builder()
+                        .email("user" + i + "@test.org")
+                        .password("12345678")
+                        .userName("사용자" + i)
+                        .regDt(LocalDateTime.now())
+                        .build())
+                .toList();
+
+        return members;
     }
 
 /*
