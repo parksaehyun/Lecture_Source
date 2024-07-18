@@ -38,10 +38,13 @@ public class MvcConfig implements WebMvcConfigurer {
         return joinValidator;
     }
     */
+
+    /*
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         registry.jsp("/WEB-INF/templates/", ".jsp");// 출력 결과물이 버퍼에 담긴다
     }
+     */
 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {

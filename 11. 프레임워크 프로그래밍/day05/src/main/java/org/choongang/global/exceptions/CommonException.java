@@ -1,9 +1,23 @@
 package org.choongang.global.exceptions;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+import java.util.Map;
+
+@Getter @Setter
 public class CommonException extends RuntimeException{
     private HttpStatus status; // 스프링이 지원해 주는 이넘상수 응답코드 // 응답코드 설정
+
+    private Map<String, List<String>> errorMessages; // 커맨드 객체 검증 시...?
+
+    /*
+    private void setErrorMessages(Map<String, List<String>> errorMessages) {
+        this.errorMessages = errorMessages;
+    }
+     */
 
     public CommonException(String message) {
         this(message, HttpStatus.INTERNAL_SERVER_ERROR); // 응답코드가 없이 그냥 호출하면 500 내보내주기용
@@ -14,7 +28,9 @@ public class CommonException extends RuntimeException{
         this.status = status;
     }
 
+    /* 롬복쓸거임
     public HttpStatus getStatus() {
         return status; // 응답코드 넣음??
     }
+     */
 }

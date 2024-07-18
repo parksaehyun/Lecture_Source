@@ -1,18 +1,16 @@
-package org.choongang.global.advice;
+package org.choongang.global.advices;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.choongang.global.exceptions.CommonException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
-@ControllerAdvice("org.choongang") // 공통적인 값 유지 및 처리할 때 사용 // "org.choongang" : value 통해 범위 설정, org.choonang 의 하위경로가 범위이다
+//@ControllerAdvice("org.choongang") // 공통적인 값 유지 및 처리할 때 사용 // "org.choongang" : value 통해 범위 설정, org.choonang 의 하위경로가 범위이다
 public class CommonControllerAdvice {
 
     @ExceptionHandler(Exception.class) // 다형성 // 발생하는 예외 다 여기로 유입되게 함
