@@ -27,17 +27,17 @@ public class RestCommonControllerAdvice {
             status = commonException.getStatus(); // 응답코드 가져오기
 
             Map<String, List<String>> errorMessages = commonException.getErrorMessages();
-            if (errorMessages != null ) message = errorMessages;
+            if (errorMessages != null ) message = errorMessages; // 가공된 에러 커먼꺼
         }
 
-        // 실패시
+        // 실패시 // 에러를 제이슨 형태로 변환
         JSONData jsonData = new JSONData();
         jsonData.setSuccess(false);
         jsonData.setMessage(message);
-        jsonData.setStatus(status);
+        jsonData.setStatus(status); // status 응답 상태 코드
 
         e.printStackTrace();
 
-        return ResponseEntity.status(status).body(jsonData);
+        return ResponseEntity.status(status).body(jsonData); // 응답 상태코드 변셩
     }
 }
