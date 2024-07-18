@@ -41,7 +41,7 @@ public class ApiMemberController {
 
         if (errors.hasErrors()) {
             throw new BadRequestException(utils.getErrorMessage(errors));
-        }
+        } // 2번 // 커맨드 에러 / 커맨드 객체 검증 에러
 
         if (errors.hasErrors()) {
             //errors.getFieldErrors().forEach(System.out::println); // 필드별 전체 에러 정보
@@ -54,8 +54,8 @@ public class ApiMemberController {
         boolean result = false;
         if(!result) {
             throw new BadRequestException("예외 테스트!");
-        }
-         */
+        } // 커맨드에러 아닌 일반적인 예외  1번
+           */
 
         joinService.process(form); // @ResponseBody RequestJoin form : 요청 데이터 json으로 받는다?
 
