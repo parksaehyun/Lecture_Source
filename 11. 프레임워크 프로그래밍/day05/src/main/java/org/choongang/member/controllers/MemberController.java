@@ -123,6 +123,7 @@ public class MemberController {
         return "redirect:/member/login";
     }
 
+    /*
     @GetMapping("/list")
     public String list(@Valid @ModelAttribute MemberSearch search, Errors errors) {
 
@@ -133,6 +134,40 @@ public class MemberController {
             throw new BadRequestException("예외 발생!");
             //throw new RuntimeException("예외 발생!");
         }
+
+        return "member/list";
+    }
+     */
+
+    @GetMapping("/list")
+    public String list2(Model model) {
+        /*
+        // Model model : 뷰에 넘겨줄 데이터
+        // 회원정보 출력하거임 -> list.html
+
+        // 회원 1명 생성
+        Member member = Member.builder()
+                .email("user01@test.org")
+                .password("123456789")
+                .userName("<h1>사용자01</h1>")
+                .regDt(LocalDateTime.now())
+                .build();
+
+        model.addAttribute("member", member);
+         */
+
+        // 10명의 사용자를 만듬
+        List<Member> items = IntStream.rangeClosed(1, 10)
+                .mapToObj(i -> Member.builder()
+                        .email("user" + i + "@test.org")
+                        .userName("사용자" + i)
+                        .regDt(LocalDateTime.now())
+                        .build())
+                .toList(); // 리스트로 바꿈
+
+        model.addAttribute("items", items);
+        // req 써도 됨 근데 왜 model을 쓰느냐 스프링쪽에 있는 기능과 관련
+        // 세션어트리뷰트 = req가 아니라 세션쪽에 값이 저장...
 
         return "member/list";
     }

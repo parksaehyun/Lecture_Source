@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <h1>회원정보</h1>
+        <div th:object="${member}">
+        <dl>
+            <dt th:text="#{이메일}">이메일</dt>
+            <dd th:text="*{email}"></dd>
+<!--            *{email}는 항상 th:object="${member}"와 같이 감 선택 변수식-->
+<!--            <dd th:text="${member.email}"></dd>-->
+<!--            th:text : 값(text)을 출력할 때 사용함-->
+        </dl>
+        <dl>
+            <dt th:text="#{회원명}">회원명</dt>
+            <dd th:text="*{userName}"></dd>
+<!--            <dd th:text="${member.userName}"></dd>-->
+        </dl>
+        <dl>
+            <dt th:text="#{가입일시}">가입일시</dt>
+            <dd th:text="*{regDt}"></dd>
+<!--            <dd th:text="${member.regDt}"></dd>-->
+        </dl>
+        </div>
+
+    <a href="#" th:href="@{/member/login}" th:text="#{로그인}"></a>
+    <br>
+    <a th:href="@{/member/login}"
+    </body>
