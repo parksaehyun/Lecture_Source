@@ -11,7 +11,7 @@ import java.util.Map;
 public class CommonException extends RuntimeException{
     private HttpStatus status; // 스프링이 지원해 주는 이넘상수 응답코드 // 응답코드 설정
 
-    private Map<String, List<String>> errorMessages; // 커맨드 객체 검증 시...?
+    private Map<String, List<String>> errorMessages; // 커맨드 객체 검증 시 에러 여기에 담음 -> 모든에러의 출력을 통일 성있게 하기 위해서(다형성)
 
     /*
     private void setErrorMessages(Map<String, List<String>> errorMessages) {

@@ -35,30 +35,37 @@ public class ApiMemberController {
     @PostMapping // POST /api/member
     public ResponseEntity join(@Valid @RequestBody RequestJoin form, Errors errors) {
         // @RequestBody : 요청쪽 바디(데이터)
+        // @Valid 커맨드객체 검증 -> 에러 발생 시 -> Errors errors 여기에 에러가 담긴다
         // 커맨드객체에 제이슨 형태로 넣어줌 -> 요청을 제이슨 형태로 보내야 한다
+        // Errors errors : 커맨드 객체에 대한 에러, 모든 에러가 아님!!!
 
         //log.info(form.toString());
 
-        if (errors.hasErrors()) {
-            throw new BadRequestException(utils.getErrorMessage(errors));
-        } // 2번 // 커맨드 에러 / 커맨드 객체 검증 에러
-
+        /* // 요청된 form 데이터의 유효성을 검증합니다.
         if (errors.hasErrors()) {
             //errors.getFieldErrors().forEach(System.out::println); // 필드별 전체 에러 정보
             //errors.getGlobalErrors().forEach(System.out::println); // 커맨드 객체 자체 에러 정보(reject(...)..)
 
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build(); // // 유효성 검증에 실패하면 400 Bad Request 응답을 반환
         }
+         */
+
+        // 에러가 있으면 예외를 발생시켜 400 Bad Request 응답을 반환합니다.
+        if (errors.hasErrors()) { // 커맨드 객체에대한 에러, 모든 에러가 여기 들어가는게 아님!!!
+            throw new BadRequestException(utils.getErrorMessage(errors)); // 글로벌이랑 필드에러 둘다 유입 -> 가공된 에러메세지 출력
+        } // 2번 // 커맨드 에러 / 커맨드 객체 검증 에러 // 애는 제이슨 형태로 반환 키(필드) 값(메세지 목록)
 
         /*
         boolean result = false;
         if(!result) {
-            throw new BadRequestException("예외 테스트!");
-        } // 커맨드에러 아닌 일반적인 예외  1번
-           */
+            throw new BadRequestException("예외 테스트!"); // 글로벌 에러시 실행(커맨드객체 에러 아닌거)
+        } // 커맨드에러 아닌 일반적인 예외  1번 // 애는 에러메세지 로 반환 제이슨이 아니라
+        */
 
-        joinService.process(form); // @ResponseBody RequestJoin form : 요청 데이터 json으로 받는다?
+        // 회원 가입 서비스 로직을 호출하여 회원 가입을 처리
+        joinService.process(form); // @RequestBody RequestJoin form : 요청 데이터 json으로 받는다?
 
+        // 회원 가입이 성공적으로 처리되면 201 Created 응답을 반환
         // 응답 코드 201, 출력 바디 X
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -76,6 +83,7 @@ public class ApiMemberController {
     @GetMapping("/list")
     public ResponseEntity<JSONData> list() {
         // 10명의 회원추가하고 목록형태로 출력할거임
+        // 10명의 Member 객체를 생성하고 리스트에 추가
         List<Member> members = IntStream.rangeClosed(1, 10)
                 .mapToObj(i -> Member.builder()
                         .email("user" + i + "@test.org")
@@ -87,13 +95,17 @@ public class ApiMemberController {
 
         //return members;
 
-        HttpHeaders headers = new HttpHeaders(); // 응답 헤더
+        // 응답 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
         headers.add("t1", "v1");
         headers.add("t2", "v2");
 
-        //return new ResponseEntity<>(members, headers, HttpStatus.OK);
+        // 응답 반환
+        //return new ResponseEntity<>(members, headers, HttpStatus.OK);// members 바디데이터,  headers 헤더, HttpStatus.OK 상태코드
         //return ResponseEntity.status(HttpStatus.OK).body(members); // 상태코드와 출력 데이터를 담음
-        return new ResponseEntity<>(new JSONData(members), headers, HttpStatus.OK);
+        return new ResponseEntity<>(new JSONData(members), headers, HttpStatus.OK); // 응답데이터, 헤더, 상태코드
+        // 응답데이터를 제이슨형식으로 반환
+        // new JSONData(members) :  members 리스트를 data로 설정
     }
 
     @GetMapping(path="/test", produces = "text/html;charset=UTF-8")

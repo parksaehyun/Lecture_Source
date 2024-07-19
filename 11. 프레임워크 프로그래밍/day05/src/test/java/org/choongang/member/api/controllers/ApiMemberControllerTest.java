@@ -39,7 +39,7 @@ public class ApiMemberControllerTest {
     @Test // 요청 보내기
     void test1() throws Exception {
 
-        // 잭슨데이터 바인드에 포함된 핵심적인 클래스 자바객체를 json으로 바꿔줌
+        // 잭슨데이터 바인드에 포함된 핵심적인 클래스 : 자바객체를 json으로 바꿔줌
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 

@@ -51,7 +51,7 @@ public class JoinValidator implements Validator {
         }
          */
 
-        // 2. 이메일 중복 여부(회원이 가입되어 있는지 체크)
+        // 2. 이메일 중복 여부(회원이 가입되어 있는지 체크) // 이메일 필드에 한정한 에러 = 리젝트 밸루 = 필드에러 = 커맨드 객체 에러
         if (StringUtils.hasText(email) && mapper.exists(email) != 0L) {
             errors.rejectValue("email", "Duplicated");
         }

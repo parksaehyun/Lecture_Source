@@ -60,7 +60,7 @@ public class LoginValidator implements Validator { // 무조건 오버라이딩 
             Member member = mapper.get(email);
             if (member == null) {
                 //errors.rejectValue("email", "Check.emailPassword"); // 특정필드에 한정하여 에러 -> 그 필드에서 에러가 나왔구나 예측이 가능하다(보안성 취약)
-                errors.reject("Check.emailPassword"); // 특정필드에 한정하지 않고 커맨드객체 그 자체의 에러
+                errors.reject("Check.emailPassword"); // 특정필드에 한정하지 않고 커맨드객체 그 자체의 에러 // 글로벌 에러
             }
 
         /*
