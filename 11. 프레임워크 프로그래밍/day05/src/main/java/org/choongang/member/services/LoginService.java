@@ -43,7 +43,7 @@ public class LoginService {
     public void process(RequestLogin form) {
         process(form.getEmail());  // 실제 처리는 process(String email)
 
-        // 쿠키는 resp(응답)통해서 받아옴 쿠키는 서버가 필요하지만 브라우저에 저장되어 있음 응답헤더 통해서 셋쿠키 해서 저장?
+        // 쿠키는 req(요청)통해서 받아옴 쿠키는 서버가 필요하지만 브라우저에 저장되어 있음 응답헤더 통해서 셋쿠키 해서 저장?
 
         /* 이메일 기억하기 처리 */
         Cookie cookie = new Cookie("savedEmail", form.getEmail());
