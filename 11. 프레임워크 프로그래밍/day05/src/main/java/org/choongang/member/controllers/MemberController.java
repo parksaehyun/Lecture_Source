@@ -169,6 +169,9 @@ public class MemberController {
         // req 써도 됨 근데 왜 model을 쓰느냐 스프링쪽에 있는 기능과 관련
         // 세션어트리뷰트 = req가 아니라 세션쪽에 값이 저장...
 
+        model.addAttribute("addCss", new String[] {"member/style", "member/list"}); // 2번째 매개변수에 배열 리스트 셋 다 주입 가능
+        model.addAttribute("addScript", List.of("member/common", "member/list"));
+
         return "member/list";
     }
 

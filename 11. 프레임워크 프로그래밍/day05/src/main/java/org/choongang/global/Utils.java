@@ -17,11 +17,15 @@ import static java.util.Locale.filter;
 
 @Component // rest에러 메세지 내가 설정한거 보내주기
 @RequiredArgsConstructor
-public class Utils {
+public class Utils { // 빈의 이름 - utils
     // 필드명, 메세지명 // map형태 - 키 :필드명  값 : 메세지명
 
     private final MessageSource messageSource; // 설정 디렉토리에 있는 메세지 소스 빈 가져오기
     private final HttpServletRequest request; // 요청쪽의 언어를 알기 위해 가져옴 // 브라우저의 로케일 설정 가져오기
+
+    public String toUpper(String str) {
+        return str.toUpperCase();
+    }
 
     public Map<String, List<String>> getErrorMessage(Errors errors) {
         // FieldErrors처리 // 커맨드객체와 관련된 에러 // 필드랑 에러가 매핑된 에러
