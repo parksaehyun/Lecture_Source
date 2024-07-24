@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+import java.time.LocalDateTime;
+
 @SpringBootTest // 의존성주입 설정 확장기능 다 포함됨
 @Transactional
 @TestPropertySource(properties = "spring.profiles.active=test")
@@ -32,14 +34,17 @@ public class Ex04 {
         // 이미 영속성에 있으면 db에서 조회 안하고 바로 영속성데이터 가져오기 때문에 db에서 데이터 가져오기 위해 clear()함
 
         member = em.find(Member.class, member.getSeq());
-        System.out.println(member);
+        System.out.printf("createdAt = %s, modifiedAt: %s\n", member.getCreatedAt(), member.getModifiedAt());
+        //System.out.println(member);
 
         Thread.sleep(5000); // 5초 뒤
         // @UpdateTimestamp 값 확인위해 이렇게 함 // 추가한시간과 수정한 시간의 차이 = 5초
         member.setUserName("(수정)사용자01");
+        member.setCreatedAt(LocalDateTime.now()); // 수정불가 쳌
         em.flush();
         em.clear();
 
         member = em.find(Member.class, member.getSeq());
+        System.out.printf("createdAt = %s, modifiedAt: %s\n", member.getCreatedAt(), member.getModifiedAt());
     }
 }
