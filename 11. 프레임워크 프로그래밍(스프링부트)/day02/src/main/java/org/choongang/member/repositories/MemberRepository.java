@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member, Long> , QuerydslPredicateExecutor<Member> {
-    //프록시 형태로 JPA가 다 만들어 줌
+    //프록시 형태로 JPA가 구현체를 다 만들어 줌
     Member findByEmail(String email); // 이메일로 조회가능하게 메서드를 만들 수 있음
 
     Page<Member> findByEmailContaining(String keyword, Pageable pageable);
