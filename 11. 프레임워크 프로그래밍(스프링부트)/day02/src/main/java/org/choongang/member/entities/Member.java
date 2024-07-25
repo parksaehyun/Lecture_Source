@@ -1,12 +1,12 @@
 package org.choongang.member.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.choongang.board.entities.BoardData;
 import org.choongang.global.entities.BaseEntity;
 import org.choongang.member.constants.Authority;
+
+import java.util.List;
 
 @Builder // 기본생성자가 private
 @Data
@@ -41,6 +41,15 @@ public class Member extends BaseEntity {
     // enum 타입 매핑
     // 기본값이 ordinal이지만 습관성으로 EnumType.STRING으로 바꿔주기
     private Authority authority;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="profile_seq")
+    private MemberProfile profile;
+
+    @ToString.Exclude // ToString 추가 배제
+    @OneToMany(mappedBy = "member") // One : Member // Many : BoarData
+    private List<BoardData> items;
+
     /*
     @CreationTimestamp // insert 시 시간 자동 저장
     private LocalDateTime createdAt;
