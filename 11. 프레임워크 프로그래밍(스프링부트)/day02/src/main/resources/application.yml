@@ -25,6 +25,7 @@ spring:
         # 실행되는 sql의 들여쓰기 및 줄 개행
         use_sql_comments: true
         # 자동생성해주는 쿼리에대한 주석
+        default_batch_fetch_size: 100
 
       #dialect: org.hibernat.dialect.OracleDialect
       # 플랫폼에 맞게 쿼리를 생성해주어야 함

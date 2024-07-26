@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import org.choongang.global.entities.BaseEntity;
 import org.choongang.member.entities.Member;
 
-import java.util.List;
-
 @Data
 @Builder // 기본생성자 private
 @Entity
@@ -31,6 +29,6 @@ public class BoardData extends BaseEntity {
     @Lob // 여러개의 데이터인 CLOB
     private String content;
 
-    @ManyToMany // 게시글 하나에 여러개의 tag있을 수 있으니 List
-    private List<HashTag> tags;
+    //@ManyToMany // 게시글 하나에 여러개의 tag있을 수 있으니 List
+    //private List<HashTag> tags;
 }

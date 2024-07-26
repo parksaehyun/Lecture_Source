@@ -47,7 +47,7 @@ public class Member extends BaseEntity {
     private MemberProfile profile;
 
     @ToString.Exclude // ToString 추가 배제
-    @OneToMany(mappedBy = "member") // One : Member // Many : BoarData
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true) // One : Member // Many : BoarData
     private List<BoardData> items;
 
     /*

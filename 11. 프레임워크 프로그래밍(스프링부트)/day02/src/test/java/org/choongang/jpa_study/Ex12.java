@@ -1,7 +1,11 @@
 package org.choongang.jpa_study;
 
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -62,17 +66,54 @@ public class Ex12 {
 
     }
     @Test
+    void test7() {
+        QBoardData boardData = QBoardData.boardData;
+
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        andBuilder.and(boardData.subject.contains("제목"))
+                .and(boardData.member.email.eq("user01@test.org"));
+        /*
+        BooleanBuilder orBuilder = new BooleanBuilder();
+        orBuilder.or(boardData.seq.eq(2L))
+                .or(boardData.seq.eq(3L))
+                .or(boardData.seq.eq(4L));
+
+        andBuilder.and(orBuilder);
+        */
+
+        PathBuilder<BoardData> pathBuilder = new PathBuilder<>(BoardData.class, "boardData");
+
+
+        JPAQuery<BoardData> query = jpaQueryFactory.selectFrom(boardData)
+                .leftJoin(boardData.member)
+                .fetchJoin()
+                .where(andBuilder)
+                .offset(3) // 조회 시작 레코드 위치 3번 행부터 조회 시작
+                .limit(3) // 3개 레코드로 한정 - 갯수 제한
+                .orderBy(
+                        new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")),
+                        new OrderSpecifier(Order.ASC, pathBuilder.get("subject")) // 2차정렬
+                );
+        //.where(boardData.seq.in(2L, 3L, 4L)); // BooleanExpression - Predicate
+
+        List<BoardData> items = query.fetch();
+        items.forEach(System.out::println);
+    }
+
+    @Test
     void test6() {
         QBoardData qBoardData = QBoardData.boardData;
         JPAQuery<Long> query = jpaQueryFactory.select(qBoardData.seq.sum())
                 .from(qBoardData);
+        long sum = query.fetchOne();
+        System.out.println(sum);
     }
 
     @Test
     void test5() {
         QBoardData qBoardData = QBoardData.boardData;
         JPAQuery<Tuple> query = jpaQueryFactory.select(qBoardData.subject, qBoardData.content)
-                .from(qBoardData); // 칼럼이 2개이상이면 자료형 튜플로 가져와야 함
+                .from(qBoardData); // 칼럼이 2개이상이면 자료형 튜플로 가져와야 함 // select : 영속상태가 아니다?(애는 그냥 일부 항목만...) // selectFrom : 영속상태이다(엔티티그자체를 가져오니까 영속상태)
         //JPAQuery<String> query = jpaQueryFactory.select(qBoardData.subject); // 칼럼이 하나이면 칼럼 자료형으로 대입가능
         List<Tuple> tuples = query.fetch();
         for (Tuple item : tuples) {
