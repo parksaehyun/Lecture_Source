@@ -1,0 +1,16 @@
+server:
+  port: 3000
+
+springdoc:
+  version: '1.0.0' # 문서 버전
+  api-docs:  #json형태로 api 명세 보내기
+    path: /api-docs
+  default-consumes-media-type: application/json # json으로 명세 한정하기 - 리액트 가지고만 연동할거라서, 요청바디데이터가 json
+  default-produces-media-type: application/json # 응답헤데 - josn
+  swagger-ui:
+    operations-sorter: alpha # 정렬(알파벳 순...) # 요청 url
+    tags-sorter: alpha
+    path: /apidocs.html # 스웨거 api 접근 url, ui 경로
+    disable-swagger-default-url:  true
+  paths-to-match: # 컨트롤러 url
+    - /api/**  #자동문서를 만들어 주는 경로  - api가 들어가 있으면 자동 문서 만들기
