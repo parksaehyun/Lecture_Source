@@ -1,14 +1,19 @@
 package org.choongang.member.controllers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
 
 @Data
 public class RequestJoin {
-    @Notblank @Email
+    @NotBlank @Email
     private String email;
-}
 
-@NotBlank @Email
+    @NotBlank
+    private String password;
+
+    @NotBlank
+    private String confirmPassword;
+    private String userName;
+    private String mobile;
+}
